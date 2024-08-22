@@ -150,6 +150,7 @@ Use `http://localhost:3000/api/v1/business` to debug the changes i.e. to show a 
 
 ## Future Enhancements
 
+- Add the authentication and authorization middleware before the request.
 - Implementing persistence with a database like MongoDB or PostgreSQL.
 - Adding unit tests for the services and routes.
 - Introducing input validation middleware for better request validation.
