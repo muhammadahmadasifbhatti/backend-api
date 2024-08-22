@@ -30,7 +30,7 @@ This repository contains the solution to a backend assessment challenge that inv
   - **Body**: 
     ```json
     {
-      "nextSteps": "Please provide the "industry" to move forward"
+      "nextSteps": "Please provide the 'industry' to move forward"
     }
     ```
 - **Possible Errors**:
@@ -48,7 +48,7 @@ This repository contains the solution to a backend assessment challenge that inv
   - **Body**: 
     ```json
     {
-      "nextSteps": "Please provide the "contact" to move forward"
+      "nextSteps": "Please provide the 'contact' to move forward"
     }
     ```
   - **OR**:
