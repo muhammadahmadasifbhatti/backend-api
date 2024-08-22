@@ -1,47 +1,33 @@
 import DB from "@/db/business.table";
-import CustomError from "@/error";
+import {ValidationError} from "@/error";
 import BusinessType, { RequestBusiness, State } from "@type/business.types";
 import {ALL_INDUSTRIES, VALID_INDUSTRIES} from "@constants/business.constants";
 
 
+const stateMessageObj : {[key in State]: string}= {
+    [State.new]: `Please provide the "industry" to move forward`,
+    [State.market_approved]: `Please provde the "contactName" and "contactPhone" to move forward`,
+    [State.market_declined]: "Sorry! Currently we are not supporting your industry. No more steps are required",
+    [State.sales_approved]: "Sales team is proccessing your request",
+    [State.won]: "Congratulations! Your business has been approved. No more steps are required",
+    [State.lost]: "Sorry! Your business has been declined. No more steps are required",
+}
+
 const getNextSteps = (state: State) => {
-    switch (state) {
-        case State.new:
-            return `Please provide the "industry" to move forward`;
-        case State.market_approved:
-            return `Please provde the "contact" to move forward`;
-        case State.market_declined:
-            return "Sorry! Currently we are not supporting your industry. No more steps are required";
-        case State.sales_approved:
-            return "Sales team is proccessing your request";
-        case State.won:
-            return "Congratulations! Your business has been approved. No more steps are required";
-        case State.lost:
-            return "Sorry! Your business has been declined. No more steps are required";
-        default:
-            return "No Further Steps are required";
-    }
+    return stateMessageObj[state] || "No further steps are required";
 };
 
 const generalValidation = (business: RequestBusiness) => {
-  if (!business.fein)
-        throw new CustomError({
-        statusCode: 400,
-        message: "Business fein and name is required",
-        });
+    if (!business.fein)
+        throw new ValidationError("Business fein and name is required");
 
-  if (business.fein.length !== 9)
-        throw new CustomError({
-        statusCode: 400,
-        message: "Business fein must be 9 digits",
-        });
+    if (business.fein.length !== 9)
+        throw new ValidationError("Business fein must be 9 digits");
 };
 
 const createBusiness = (business: RequestBusiness) => {
-    if (!business.name) throw new CustomError({
-        statusCode: 400,
-        message: `Please provide the Business "name" to register it`
-    });
+    if (!business.name) 
+        throw new ValidationError(`Please provide the Business "name" to register it`);
 
     const newBusiness: BusinessType = {
         fein: business.fein,
@@ -58,7 +44,6 @@ const handleBusinessProgress = (
     generalValidation(reqBusiness);
 
     const business = DB.get(reqBusiness.fein);
-    console.log(business);
 
     if (!business) {
         const newBusiness = createBusiness(reqBusiness);
@@ -66,10 +51,10 @@ const handleBusinessProgress = (
     } else {
         if (business.state === State.new) {
             if (!reqBusiness.industry) 
-                throw new CustomError({ statusCode: 400, message: "Business industry is required for this step" });
+                throw new ValidationError("Business industry is required for this step" );
             
             if (!ALL_INDUSTRIES.includes(reqBusiness.industry))
-                throw new CustomError({ statusCode: 400, message: `Supported industries are: ${ALL_INDUSTRIES}` });
+                throw new ValidationError(`Supported industries are: ${ALL_INDUSTRIES}` );
             
             business.industry = reqBusiness.industry;
             business.state = VALID_INDUSTRIES.includes(reqBusiness.industry) 
@@ -80,7 +65,7 @@ const handleBusinessProgress = (
         } else if (business.state === State.market_approved) {
             // we can add more validations on contact here.
             if (!reqBusiness.contact?.name || !reqBusiness.contact?.phone)
-                throw new CustomError({ statusCode: 400, message: "Please provde the contactName and contactPhone for the next steps" });
+                throw new ValidationError(`Please provde the "contactName" and "contactPhone" for the next steps`);
             
             business.contact = reqBusiness.contact;
             business.state = State.sales_approved;

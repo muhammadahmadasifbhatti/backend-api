@@ -30,7 +30,7 @@ businessRouter.put('/:fein/workflow-progress', (req, res, next) => {
     }
 });
 
-businessRouter.get('/', (req, res, next) => {
+businessRouter.get('/', (_, res, next) => {
     try {
         const businesses = BusinessServices.getAllBusinesses();
         res.status(200).send(businesses);

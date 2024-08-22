@@ -12,4 +12,23 @@ class CustomError extends Error {
     }
 }
 
+class ValidationError extends CustomError {
+    constructor(message: string) {
+        super({message, statusCode: 400});
+    }
+}
+
+class AlreadyExistsError extends CustomError {
+    constructor(message: string) {
+        super({message, statusCode: 403});
+    }
+}
+
+class NotFoundError extends CustomError {
+    constructor(message: string) {
+        super({message, statusCode: 404});
+    }
+}
+
 export default CustomError;
+export {ValidationError, AlreadyExistsError, NotFoundError};

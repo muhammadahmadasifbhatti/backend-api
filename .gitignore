@@ -1,5 +1,8 @@
 # Dependency directories
 node_modules/
 
+# TypeScript build output
+src/**/*.js
+
 # TypeScript cache
 *.tsbuildinfo
