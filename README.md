@@ -150,6 +150,8 @@ npm run dev
 ### Testing the API
 Use Postman, Curl, or any API client to interact with the Worfklow API at `http://localhost:3000/api/v1/business/:fein/workflow-progress`.
 
+
+### Debugging the Outputs
 Use `http://localhost:3000/api/v1/business` to debug the changes i.e. to show a JSON of all the businesses currently in the system.
 
 ## Assumptions
