@@ -145,6 +145,7 @@ npm run start
 #### Dev Server
 ```bash
 npm run dev
+```
 
 ### Testing the API
 Use Postman, Curl, or any API client to interact with the Worfklow API at `http://localhost:3000/api/v1/business/:fein/workflow-progress`.
