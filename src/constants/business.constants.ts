@@ -1,0 +1,10 @@
+const INDUSTRIES = {
+    RESTAURANT: 'restaurant',
+    STORES: 'stores',
+    WHOLESALE: 'wholesale',
+    SERVICES: 'services',
+};
+const ALL_INDUSTRIES = Object.values(INDUSTRIES);
+const VALID_INDUSTRIES = [INDUSTRIES.RESTAURANT, INDUSTRIES.STORES]; 
+
+export { INDUSTRIES, ALL_INDUSTRIES, VALID_INDUSTRIES };
